@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block page_title %}<title>{{post.title}}</title>{% endblock %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static "blog/style.css" %}"> 
+{% endblock %} 
+{% block content %}
+<section class="">
+    <div class="container">
+        <div class="row text-body-emphasis position-relative">
+            <div class="blog-head-image">
+                <img src="{% static "blog/img/" %} {{ post.image }}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+            </div>
+            <div class="blog-head-text bg-dark">
+              <h1 class="display-4 fst-italic">{{ post.title }}</h1>
+              <p class="blog-post-meta">{{ post.author }} <time>{{post.date}}</time></p>
+            </div>
+        </div>
+    </div>
+</section>
+<main class="py-5">
+    <article class="blog-post container">
+        <p>{{ post.excrept }}</p>
+        <hr>
+        {% for section in sections %}
+            <h3>{{ section.title }}</h3>
+            <h4>{{ section.subsection.title }}</h4>
+            <p>{{ section.subsection.content }}</p>
+        {% endfor %}
+  </article>
+</main>
+{% endblock %}
