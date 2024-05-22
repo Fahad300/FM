@@ -5,28 +5,100 @@
 <link rel="stylesheet" href="{% static "blog/style.css" %}"> 
 {% endblock %} 
 {% block content %}
+<main>
 <section class="">
     <div class="container">
-        <div class="row text-body-emphasis position-relative">
-            <div class="blog-head-image">
-                <img src="{% static "blog/img/" %} {{ post.image }}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+        
+    </div>
+</section>
+<section>
+    <div class="container"> 
+    <div class="row">
+        <div class="col-md-8">
+            <div class="text-body-emphasis py-5">
+                <div class="blog-head-image">
+                    <img src="{% static "blog/img/"|add:post.image %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                </div>
+                <div class="blog-head-text shadow-lg">
+                    <h1 class="display-5 fwb400">{{ post.title }}</h1>
+                    <p class="blog-post-meta m-0">By <a href="">{{ post.Auther }}</a></p>
+                    <time>{{post.Date}}</time>
+                </div>
             </div>
-            <div class="blog-head-text bg-dark">
-              <h1 class="display-4 fst-italic">{{ post.title }}</h1>
-              <p class="blog-post-meta">{{ post.author }} <time>{{post.date}}</time></p>
-            </div>
+         <article class="blog-post">
+            <p>{{ post.Excrept }}</p>
+            <hr>
+            {% for section in post.sections %}
+                <h3 class="bs-success">{{ forloop.counter }}. {{section.title }}</h3>
+                {% for subsection in section.subsections %}
+                    <h5>{{ subsection.title }}</h5>
+                    <p>{{ subsection.content }}</p>
+                {% endfor %}
+            {% endfor %}
+            <hr>
+            <h3>Conclusion</h3>
+            <p>{{ post.conclusion }}</p>
+      </article>
+    </div>
+
+    <div class="col-md-4">
+      <div class="position-sticky py-5 pb-3">
+        <div>
+          <h4 class="fst-italic">Recent posts</h4>
+          <ul class="list-unstyled">
+            {% for post in latest_post %}
+            <li>
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url "dynamic-post" post.slug %}">
+                <img style="height:80px" src="{% static "blog/img/"|add:post.image %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                <div class="col-lg-8">
+                  <h6 class="mb-0">{{post.title}}</h6>
+                  <small class="text-body-secondary mt-2 text-secondary">By {{post.Auther}}</small>
+                  <small class="text-body-secondary d-block text-secondary">{{post.Date}}</small>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="call_to_action p-3">
+            <figure class="text-left">
+                <blockquote class="blockquote">
+                  <p class="display-6">"{{post.quote}}"</p>
+                </blockquote>
+                <figcaption class="blockquote-footer text-end">
+                    <cite title="Source Title">{{ post.quoter }}</cite>
+                </figcaption>
+              </figure>
+        </div>
+        <div class="p-4">
+          <h4 class="fst-italic">Archives</h4>
+          <ol class="list-unstyled mb-0 pt-2 border-top">
+            {% for post in all_posts %}
+                <li><a href="{% url "dynamic-post" post.slug %}">{{ post.Date|date:"d M Y" }}</a></li>
+            {% endfor %}
+          </ol>
+        </div>
+
+        <div class="p-4">
+          <h4 class="fst-italic">Elsewhere</h4>
+          <ol class="list-unstyled">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+</section>
+<section class="call_to_action py-5">
+    <div class="container">
+        <div class="text-center py-5">
+            <p class="display-6 fst-italic">{{ post.call_to_action }}</p>
         </div>
     </div>
 </section>
-<main class="py-5">
-    <article class="blog-post container">
-        <p>{{ post.excrept }}</p>
-        <hr>
-        {% for section in sections %}
-            <h3>{{ section.title }}</h3>
-            <h4>{{ section.subsection.title }}</h4>
-            <p>{{ section.subsection.content }}</p>
-        {% endfor %}
-  </article>
+  {% include "blog/includes/author.html" %}
 </main>
 {% endblock %}
