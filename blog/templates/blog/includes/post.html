@@ -4,13 +4,13 @@
     <img src="{% static "blog/img/" %}{{post.image}}" class="d-block mx-lg-auto img-fluid" alt="{{ post.title }}" loading="lazy">
     <div class="card-body">
         <h5 class="card-text">{{ post.title }}</h5>
-        <p>{{ post.Excrept |truncatechars:200 }}</p>
+        <p>{{ post.excerpt |truncatechars:200 }}</p>
         <div class="d-flex justify-content-between align-items-center">
         <div class="btn-group">
             <a href="{% url "dynamic-post" post.slug %}" type="button" class="btn btn-sm btn-outline-secondary">Read More</a>
         </div>
-        <small class="text-body-secondary">{{ post.Date }}</small>
-        <small class="text-body-secondary bold"><a href="#">{{ post.Auther }}</a></small>
+        <small class="text-body-secondary">{{ post.date }}</small>
+        <small class="text-body-secondary bold"><a href="#">{{ post.author }}</a></small>
         </div>
     </div>
     </div>

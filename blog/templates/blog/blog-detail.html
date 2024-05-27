@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load custom_filters %}
 {% load static %}
 {% block page_title %}<title>{{post.title}}</title>{% endblock %}
 {% block css_files %}
@@ -6,35 +7,24 @@
 {% endblock %} 
 {% block content %}
 <main>
-<section class="">
-    <div class="container">
-        
-    </div>
-</section>
 <section>
     <div class="container"> 
     <div class="row">
         <div class="col-md-8">
             <div class="text-body-emphasis py-5">
                 <div class="blog-head-image">
-                    <img src="{% static "blog/img/"|add:post.image %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                    <img src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
                 </div>
                 <div class="blog-head-text shadow-lg">
                     <h1 class="display-5 fwb400">{{ post.title }}</h1>
-                    <p class="blog-post-meta m-0">By <a href="">{{ post.Auther }}</a></p>
-                    <time>{{post.Date}}</time>
+                    <p class="blog-post-meta m-0">By <a href="">{{ post.author }}</a></p>
+                    <time>{{post.date}}</time>
                 </div>
             </div>
          <article class="blog-post">
-            <p>{{ post.Excrept }}</p>
+            <p>{{ post.excerpt }}</p>
             <hr>
-            {% for section in post.sections %}
-                <h3 class="bs-success">{{ forloop.counter }}. {{section.title }}</h3>
-                {% for subsection in section.subsections %}
-                    <h5>{{ subsection.title }}</h5>
-                    <p>{{ subsection.content }}</p>
-                {% endfor %}
-            {% endfor %}
+            {{ post.content|remove_quotes|safe }}
             <hr>
             <h3>Conclusion</h3>
             <p>{{ post.conclusion }}</p>
@@ -49,11 +39,11 @@
             {% for post in latest_post %}
             <li>
               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url "dynamic-post" post.slug %}">
-                <img style="height:80px" src="{% static "blog/img/"|add:post.image %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                <img style="height:80px" src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
                 <div class="col-lg-8">
                   <h6 class="mb-0">{{post.title}}</h6>
-                  <small class="text-body-secondary mt-2 text-secondary">By {{post.Auther}}</small>
-                  <small class="text-body-secondary d-block text-secondary">{{post.Date}}</small>
+                  <small class="text-body-secondary mt-2 text-secondary">By {{post.author}}</small>
+                  <small class="text-body-secondary d-block text-secondary">{{post.date}}</small>
                 </div>
               </a>
             </li>
@@ -74,7 +64,7 @@
           <h4 class="fst-italic">Archives</h4>
           <ol class="list-unstyled mb-0 pt-2 border-top">
             {% for post in all_posts %}
-                <li><a href="{% url "dynamic-post" post.slug %}">{{ post.Date|date:"d M Y" }}</a></li>
+                <li><a href="{% url "dynamic-post" post.slug %}">{{ post.date|date:"d M Y" }}</a></li>
             {% endfor %}
           </ol>
         </div>
