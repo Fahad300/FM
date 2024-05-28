@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="text-body-emphasis py-5">
                 <div class="blog-head-image">
-                    <img src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                    <img src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="{% post.title %}" loading="lazy">
                 </div>
                 <div class="blog-head-text shadow-lg">
                     <h1 class="display-5 fwb400">{{ post.title }}</h1>
