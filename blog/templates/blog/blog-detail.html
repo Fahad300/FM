@@ -13,21 +13,23 @@
         <div class="col-md-8">
             <div class="text-body-emphasis py-5">
                 <div class="blog-head-image">
-                    <img src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="{% post.title %}" loading="lazy">
+                    <img src="{% static "/blog/img/"%}{{ post.image }}" class="d-block mx-lg-auto img-fluid" alt="{{ post.title }}" loading="lazy">
                 </div>
                 <div class="blog-head-text shadow-lg">
                     <h1 class="display-5 fwb400">{{ post.title }}</h1>
-                    <p class="blog-post-meta m-0">By <a href="">{{ post.author }}</a></p>
+                    <p class="blog-post-meta m-0">By <a href="mailto:{{ post.author.email }}">{{ post.author }}</a></p>
                     <time>{{post.date}}</time>
+                    <div>
+                        {% for tag in tags %}
+                          <span class="badge rounded-pill bg-success">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-         <article class="blog-post">
+         <article class="blog-post mb-5">
             <p>{{ post.excerpt }}</p>
             <hr>
             {{ post.content|remove_quotes|safe }}
-            <hr>
-            <h3>Conclusion</h3>
-            <p>{{ post.conclusion }}</p>
       </article>
     </div>
 
@@ -39,7 +41,7 @@
             {% for post in latest_post %}
             <li>
               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url "dynamic-post" post.slug %}">
-                <img style="height:80px" src="{% static "blog/img/"|add:post.image.url %}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
+                <img style="height:80px" src="{% static "/blog/img/"%}{{ post.image }}" class="d-block mx-lg-auto img-fluid" alt="Blog" loading="lazy">
                 <div class="col-lg-8">
                   <h6 class="mb-0">{{post.title}}</h6>
                   <small class="text-body-secondary mt-2 text-secondary">By {{post.author}}</small>
@@ -49,16 +51,6 @@
             </li>
             {% endfor %}
           </ul>
-        </div>
-        <div class="call_to_action p-3">
-            <figure class="text-left">
-                <blockquote class="blockquote">
-                  <p class="display-6">"{{post.quote}}"</p>
-                </blockquote>
-                <figcaption class="blockquote-footer text-end">
-                    <cite title="Source Title">{{ post.quoter }}</cite>
-                </figcaption>
-              </figure>
         </div>
         <div class="p-4">
           <h4 class="fst-italic">Archives</h4>
@@ -70,11 +62,11 @@
         </div>
 
         <div class="p-4">
-          <h4 class="fst-italic">Elsewhere</h4>
-          <ol class="list-unstyled">
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Facebook</a></li>
+          <h4 class="fst-italic">Topoics Covered</h4>
+          <ol class="list-group list-group-numbered">
+            {% for tag in tags %}
+              <li class="list-group-item">{{ tag }}</li>
+            {% endfor %}
           </ol>
         </div>
       </div>
@@ -85,7 +77,8 @@
 <section class="call_to_action py-5">
     <div class="container">
         <div class="text-center py-5">
-            <p class="display-6 fst-italic">{{ post.call_to_action }}</p>
+            <p class="display-6 fst-italic">For more insights and personalized guidance, contact our team of experts. Together, we can make a meaningful impact on healthcare delivery.</p>
+            <a href="" class="btn btn-lg btn-secondary">Contact Us</a>
         </div>
     </div>
 </section>

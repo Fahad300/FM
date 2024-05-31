@@ -1,21 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 
-posts = Post.objects.all()
 
 def blog(request):
+    posts = Post.objects.all().order_by("-date")
     return render(request, "blog/blog.html", {
          "posts": posts
     })
 
-def get_latest_items(model, date_field, limit=5):
-    return model.objects.all().order_by(f'-{date_field}')[:limit]
-
 def dynamic_post(request, slug):
-      s_post = get_object_or_404(Post, slug=slug)
-      latest_posts = get_latest_items(Post, 'date')
+      posts = Post.objects.all()
+      post = get_object_or_404(posts, slug=slug)
+      latest_posts = posts.order_by("-date")[:5]
       return render(request, "blog/blog-detail.html" , {
-         "post": s_post,
+         "post": post,
          "latest_post": latest_posts,
-         "all_posts": posts
+         "all_posts": posts,
+         "tags": post.tags.all()
     })
