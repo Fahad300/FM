@@ -83,5 +83,55 @@
     </div>
 </section>
   {% include "blog/includes/author.html" %}
+  <section class="py-5">
+      <div class="container">
+        <div class="comments-list">
+          <div class="title">
+            <h2>Comments ({{ c_count }})</h2>
+          </div>
+          {% for coment in comments%}
+          <div class="comment-item">
+              <div class="content d-flex gap-3">
+                <div class="avatar">
+                    <img src="https://github.githubassets.com/images/gravatars/gravatar-user-420.png?size=40" alt="Author">
+                </div>
+                  <div class="details">
+                    <div class="title mb-3">
+                        <h5>{{ coment.c_name }}</h5>
+                        <span>{{ coment.c_date }}</span>
+                    </div>
+                      <p>{{ coment.c_comment }}</p>
+                  </div>
+              </div>
+          </div>
+          {% endfor%}
+      </div>
+        <div class="comments-form">
+          <div class="title">
+              <h2>Leave a comments</h2>
+          </div>
+          <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ form.name }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ form.email }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.comment }}
+            </div>
+            <button type="submit" class="btn btn-lg btn-success">Submit</button>
+        </form>
+      </div>
+      </div>
+  </section>
+  {{ messeges }}
 </main>
 {% endblock %}
